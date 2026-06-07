@@ -1,0 +1,62 @@
+# Render manifest for AI Marketing Automation
+# Update `repo` fields or set env vars in the Render UI when creating the services.
+
+services:
+  - type: web
+    name: ai-marketing-backend
+    env: python
+    repo: https://github.com/<youruser>/<yourrepo>
+    branch: main
+    root: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: EMAIL_HOST
+        sync: false
+      - key: EMAIL_PORT
+        sync: false
+      - key: EMAIL_USERNAME
+        sync: false
+      - key: EMAIL_PASSWORD
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      - key: EMAIL_USE_TLS
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+
+staticSites:
+  - name: ai-marketing-frontend
+    repo: https://github.com/<youruser>/<yourrepo>
+    branch: main
+    root: frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    envVars:
+      - key: VITE_API
+        sync: false
+
+cronJobs:
+  - name: inactive-scan
+    schedule: "0 2 * * *" # daily at 02:00 UTC
+    command: bash -lc "cd backend && python3 scripts/run_inactive_scan.py"
+    env:
+      - key: MONGODB_URI
+        sync: false
+      - key: EMAIL_HOST
+        sync: false
+      - key: EMAIL_PORT
+        sync: false
+      - key: EMAIL_USERNAME
+        sync: false
+      - key: EMAIL_PASSWORD
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      - key: EMAIL_USE_TLS
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
