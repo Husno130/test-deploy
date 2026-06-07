@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { sendMessage } from "../services/chatService";
+import API from "../api";
 import { renderMarkdown } from "../utils/markdown";
 
 export default function Chatbot() {
@@ -19,7 +20,7 @@ export default function Chatbot() {
 
   const loadChatHistory = async () => {
     try {
-      const res = await fetch(`http://127.0.0.1:8000/chat/${adminId}`);
+        const res = await fetch(`${API}/chat/${adminId}`);
       if (res.ok) {
         const history = await res.json();
         setChat(history);
