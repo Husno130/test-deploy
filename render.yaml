@@ -37,7 +37,7 @@ staticSites:
     publishPath: dist
     envVars:
       - key: VITE_API
-        value : "https://test-deploy-0xnp.onrender.com"
+        value: https://test-deploy-0xnp.onrender.com
         sync: false
 
 cronJobs:
