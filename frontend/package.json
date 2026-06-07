@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "prebuild": "chmod +x ./node_modules/@esbuild/linux-x64/bin/esbuild || true",
+    "build": "node ./node_modules/vite/bin/vite.js build",
+    "preview": "node ./node_modules/vite/bin/vite.js preview",
+    "postinstall": "mkdir -p ./node_modules/.bin && cp ./node_modules/vite/bin/vite.js ./node_modules/.bin/vite || true && chmod +x ./node_modules/.bin/vite || true"
   },
   "dependencies": {
     "react": "^18.2.0",
